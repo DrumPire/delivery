@@ -70,6 +70,11 @@ function notAutorized() {
   buttonAuth.addEventListener('click', toggleModalAuth);
   closeAuth.addEventListener('click', toggleModalAuth);
   logInForm.addEventListener('submit', logIn);
+  modalAuth.addEventListener('click', function (event) {
+    if(event.target.classList.contains('is-open')) {
+      toggleModalAuth ();
+    }
+  });
 }
 
 function checkAuth() {
