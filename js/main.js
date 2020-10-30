@@ -24,6 +24,11 @@ let login = localStorage.getItem('userName');
 function toggleModalAuth () {
   modalAuth.classList.toggle('is-open');
   loginInput.style.borderColor = '';
+  if(modalAuth.classList.contains('is-open')) {
+    disableScroll();
+  } else {
+    enableScroll();
+  }
 }
 
 function autorized() {
