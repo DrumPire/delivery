@@ -18,11 +18,16 @@ const cardsMenu = document.querySelector('.cards-menu');
 
 let login = localStorage.getItem('userName');
 
+function validName(str) {
+  const regName = /^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$/;
+  return regName.test(str);
+}
+
 function toggleModal() {
   modal.classList.toggle("is-open");
 }
 
-function toggleModalAuth () {
+function toggleModalAuth() {
   modalAuth.classList.toggle('is-open');
   loginInput.style.borderColor = '';
   if(modalAuth.classList.contains('is-open')) {
@@ -57,7 +62,7 @@ function notAutorized() {
 
   function logIn(event) {
     event.preventDefault();
-    if(loginInput.value.trim()) {
+    if(validName(loginInput.value)) {
       login = loginInput.value;
 
       localStorage.setItem('userName', login);
@@ -114,8 +119,6 @@ function createCardRestaurant() {
   cardsRestaurants.insertAdjacentHTML('beforeend', card);
 }
 
-createCardRestaurant();
-
 function createCardGood() {
   const card = document.createElement('div');
   card.className = 'card';
@@ -144,14 +147,20 @@ function createCardGood() {
 
 function openGoods(event) {
   const target = event.target;
-  const restaurant = target.closest('.card-restaurant');
-  if(restaurant) {
-    containerPromo.classList.add('hide');
-    restaurants.classList.add('hide');
-    menu.classList.remove('hide');
-    cardsMenu.textContent = '';
-    createCardGood();
-  }
+  if(login) {
+    const restaurant = target.closest('.card-restaurant');
+    if(restaurant) {
+      cardsMenu.textContent = '';
+      containerPromo.classList.add('hide');
+      restaurants.classList.add('hide');
+      menu.classList.remove('hide');
+      
+      createCardGood();
+    } 
+  } else {
+     toggleModalAuth();
+   }
+  
 }
 
 cartButton.addEventListener("click", toggleModal);
@@ -166,3 +175,18 @@ logo.addEventListener('click', function() {
 });
 
 checkAuth();
+createCardRestaurant();
+
+// Slider
+
+new Swiper('.swiper-container', {
+  slidesPerView: 1,
+  loop: true,
+  autoplay: true,
+  effect: 'cube',
+  slideShadows: false,
+  grabCursor: true,
+  cubeEffect: {
+    shadow: false,
+  },
+})
